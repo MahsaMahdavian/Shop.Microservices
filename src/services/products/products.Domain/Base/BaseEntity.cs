@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace products.Domain.Base
+{
+    public abstract class BaseEntity<Tkey>
+    {
+        public Tkey id { get; set; }
+        public DateTime CreationDateTime { get; set; }
+        public DateTime ModificationDateTime { get; set; }
+    }
+
+    public abstract class BaseEntity : BaseEntity<int> 
+    
+    {
+
+    }
+}
