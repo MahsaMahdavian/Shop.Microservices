@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
 using products.Domain.Base.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace products.Domain.Base.Categories
@@ -47,13 +46,14 @@ namespace products.Domain.Base.Categories
          internal List<Category> SeedLarData()
             {
                 var categories = new List<Category>();
-
-                using (StreamReader SR=new StreamReader(@"SeedData/CategorySeed.json"))
+                string directoryPath=Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+                string categorySeedPath = Path.Combine(directoryPath, @"SeedData/CategorySeed.json");
+                using (StreamReader SR=new StreamReader(categorySeedPath))
                 {
-                    string json=SR.ReadToEnd(); 
-                    categories=JsonConvert.DeserializeObject<List<Category>>(json);
+                    string json=SR.ReadToEnd();
+                    categories = JsonSerializer.Deserialize<List<Category>>(json);           
                 }
-                return categories;
+                return categories ?? new();
             }
         }
     }
