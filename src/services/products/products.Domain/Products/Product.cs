@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
-using products.Domain.Base.Categories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
+using products.Domain.Base;
+using products.Domain.Categories;
 
-namespace products.Domain.Base.Products
+namespace products.Domain.Products
 {
     public class Product : BaseEntity
     {
@@ -37,21 +33,22 @@ namespace products.Domain.Base.Products
                 builder.Property(p => p.Code).IsRequired().HasMaxLength(50);
                 builder.Property(p => p.CreationDateTime).IsRequired().HasDefaultValue(DateTime.UtcNow);
                 builder.Property(p => p.ModificationDateTime).IsRequired().HasDefaultValue(DateTime.UtcNow);
-                builder.HasData(SeedLargeData());
-
-
+                builder.HasData(SeedProducts());
 
             }
 
-            internal List<Product> SeedLargeData()
+            private List<Product> SeedProducts()
             {
                 var products = new List<Product>();
-                using (StreamReader r = new StreamReader(@"SeedData/ProductSeed.json"))
+                string directoryPath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+                string categorySeedPath = Path.Combine(directoryPath, @"SeedData/ProductSeed.json");
+                using (StreamReader SR = new StreamReader(categorySeedPath))
                 {
-                    string json = r.ReadToEnd();
-                    products = JsonConvert.DeserializeObject<List<Product>>(json);
+                    string json = SR.ReadToEnd();
+                    products = JsonSerializer.Deserialize<List<Product>>(json);
                 }
-                return products;
+                return products ?? new();
+
             }
         }
     }

@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using products.Domain.Base.Products;
+using products.Domain.Base;
+using products.Domain.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace products.Domain.Base.Categories
+namespace products.Domain.Categories
 {
     public class Category : BaseEntity
     {
@@ -41,9 +42,9 @@ namespace products.Domain.Base.Categories
                 builder.Property(p => p.ThumbnailUrl).IsRequired().HasMaxLength(50).HasDefaultValue("https://via.placeholder.com/150x150.png");
                 builder.Property(p => p.CreationDateTime).IsRequired().HasDefaultValue(DateTime.UtcNow);
                 builder.Property(p => p.ModificationDateTime).IsRequired().HasDefaultValue(DateTime.UtcNow);
-                builder.HasData(SeedLarData());
+                builder.HasData(SeedCateories());
             }
-         internal List<Category> SeedLarData()
+         private List<Category> SeedCateories()
             {
                 var categories = new List<Category>();
                 string directoryPath=Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);

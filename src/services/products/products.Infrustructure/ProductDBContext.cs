@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using products.Domain.Base.Categories;
-using products.Domain.Base.Products;
+using products.Domain.Categories;
+using products.Domain.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
