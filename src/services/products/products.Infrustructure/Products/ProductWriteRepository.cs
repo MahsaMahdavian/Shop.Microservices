@@ -1,10 +1,5 @@
 ﻿using products.Domain.Base.Products.Repository;
 using products.Domain.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace products.Infrustructure.Products
 {
@@ -18,19 +13,26 @@ namespace products.Infrustructure.Products
         }
         public async Task<Product> AddAsync(Product product)
         {
-            //var ProductEntity=await _dbContext.AddAsync(product);
-            throw new NotImplementedException();
+            var productEntity = await _dbContext.AddAsync(product);
+            await _dbContext.SaveChangesAsync();
+            return productEntity.Entity;
 
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(Product product)
         {
-            throw new NotImplementedException();
+            _dbContext.Products.Remove(product);
+
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task<Product> UpdateAsync(Product product)
+        public async Task<Product> UpdateAsync(Product product)
         {
-            throw new NotImplementedException();
+            var productEntry = _dbContext.Update(product);
+
+
+            await _dbContext.SaveChangesAsync();
+            return product;
         }
     }
 }

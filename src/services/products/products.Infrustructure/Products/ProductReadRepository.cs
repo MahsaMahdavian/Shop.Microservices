@@ -25,5 +25,9 @@ namespace products.Infrustructure.Products
         {
             return await _dbContext.Products.FirstOrDefaultAsync(p => p.id==id);
         }
+        public async Task<Product> GetAsyncNoTracking(int id)
+        {
+            return await _dbContext.Products.AsNoTracking().FirstOrDefaultAsync(p => p.id == id);
+        }
     }
 }

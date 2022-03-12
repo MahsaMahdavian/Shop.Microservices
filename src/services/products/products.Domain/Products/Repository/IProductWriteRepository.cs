@@ -11,6 +11,6 @@ namespace products.Domain.Base.Products.Repository
     {
         Task<Product> AddAsync(Product product);    
         Task<Product> UpdateAsync(Product product); 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Product product);
     }
 }

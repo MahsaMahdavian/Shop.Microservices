@@ -1,5 +1,10 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using products.Application.Products.Command.Create;
+using products.Application.Products.Command.Delete;
+using products.Application.Products.Command.Update;
+using products.Application.Products.Queries;
 using products.Domain;
 using products.Domain.Products;
 
@@ -12,25 +17,19 @@ namespace products.Api.Controllers
     public class ProductsController : ControllerBase
     {
 
-        private readonly IReadUnitOfWork _readUnitOfWork;
-        private readonly IMapper _mapper;
-
-        public ProductsController(IReadUnitOfWork readUnitOfWork, IMapper mapper)
+    
+        private readonly IMediator _mediator;
+        public ProductsController(IMediator mediator)
         {
-            _readUnitOfWork = readUnitOfWork;
-            _mapper = mapper;
-
-
+            _mediator = mediator;
         }
-        // GET: api/<ValuesController>
+
         [HttpGet]
         public async Task<List<ProductResDto>> Get()
         {
-            var productRes = _mapper.Map<List<ProductResDto>>(await _readUnitOfWork.ProductReadRepository.GetAllAsync());
-            return productRes;
+            return await _mediator.Send(new GetProductsListQuery());
         }
 
-        // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
@@ -39,20 +38,31 @@ namespace products.Api.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ProductResDto> Post(AddProductCommand request)
         {
+            return await _mediator.Send(request);
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<bool>> Put(int id, UpdateProductCommand request)
         {
+            if (id!= request.id)
+            {
+                return BadRequest("Id in body and query most be equal");
+
+            }
+
+            var res = await _mediator.Send(request);
+            return res;
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(DeleteProductCommand request)
         {
+            var res = await _mediator.Send(request);
+            return res;
         }
     }
 }

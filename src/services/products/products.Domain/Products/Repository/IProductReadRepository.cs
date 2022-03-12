@@ -11,5 +11,6 @@ namespace products.Domain.Base.Products.Repository
     {
         Task<List<Product>> GetAllAsync();
         Task<Product> GetByIdAsync(int id);
+        Task<Product> GetAsyncNoTracking(int id);
     }
 }
