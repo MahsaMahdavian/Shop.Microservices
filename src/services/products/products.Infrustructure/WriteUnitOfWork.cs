@@ -1,5 +1,7 @@
 ﻿using products.Domain;
 using products.Domain.Base.Products.Repository;
+using products.Domain.Categories.Repository;
+using products.Infrustructure.Categories;
 using products.Infrustructure.Products;
 using System;
 using System.Collections.Generic;
@@ -18,9 +20,14 @@ namespace products.Infrustructure
         }
 
         private ProductWriteRepository _productWriteRepository;
+        private CategoryWriteRepository _categoryWriteRepository;
         public IProductWriteRepository ProductWriteRepository
         {
             get { return _productWriteRepository ??= new ProductWriteRepository(_dbContext); } 
+        }
+        public ICategoryWriteRepository CategoryWriteRepository
+        {
+            get { return _categoryWriteRepository ??= new CategoryWriteRepository(_dbContext); }
         }
 
     }

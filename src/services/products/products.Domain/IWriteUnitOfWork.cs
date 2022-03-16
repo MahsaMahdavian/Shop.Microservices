@@ -1,4 +1,5 @@
 ﻿using products.Domain.Base.Products.Repository;
+using products.Domain.Categories.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace products.Domain
     public interface IWriteUnitOfWork
     {
         IProductWriteRepository  ProductWriteRepository { get; } 
+        ICategoryWriteRepository  CategoryWriteRepository { get; } 
     }
 }
