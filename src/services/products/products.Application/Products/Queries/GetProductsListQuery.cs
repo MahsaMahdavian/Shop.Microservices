@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using products.Domain.Base;
 using products.Domain.Products;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace products.Application.Products.Queries
 {
-    public class GetProductsListQuery:IRequest<List<ProductResDto>>
+    public class GetProductsListQuery:ProductFilterPageReqDto,IRequest<PaginitionResDto<List<ProductResDto>>>
     {
     }
 }
