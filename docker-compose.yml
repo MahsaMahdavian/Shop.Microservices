@@ -3,6 +3,8 @@ version: '3.4'
 services:
   productdb:
     image: postgres
+  discountdb:
+    image: postgres
   basketdb:
     image: redis:alpine
   pgadmin:
